@@ -12,17 +12,19 @@ import com.chaseoes.mobninja.NinjaPlayer;
 
 public class EntityDamageByEntityListener implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void entityDamageByEntity(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Arrow) {
             Arrow arrow = (Arrow) event.getDamager();
             if (arrow.getShooter() instanceof Player) {
                 Player player = (Player) arrow.getShooter();
                 if (GameUtilities.playerIsIngame(player)) {
+                    if (!(event.getEntity() instanceof Player)) {
                     MobNinjaGame game = GameUtilities.getCurrentGame(player);
                     NinjaPlayer np = game.getNinjaPlayers().get(player.getName());
                     np.setKills(-1);
                     game.getScoreboard().update();
+                    }
                 }
             }
         }
