@@ -27,7 +27,7 @@ public class MobNinja extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-        
+
         // Register events
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new EntityDamageByEntityListener(), this);
@@ -38,10 +38,11 @@ public class MobNinja extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        
         // Disable games
-        for (String name : getConfig().getConfigurationSection("games").getKeys(false)) {
-            games.put(name, new MobNinjaGame(name));
+        if (getConfig().getConfigurationSection("games") != null) {
+            for (String name : getConfig().getConfigurationSection("games").getKeys(false)) {
+                games.put(name, new MobNinjaGame(name));
+            }
         }
     }
 
